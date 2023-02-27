@@ -33,6 +33,7 @@ int main(int argc, char *argv[]){
         fwrite(ptr, sizeof(char), blocksize, output);
     }
     fwrite(ptr, sizeof(char), n, output);
+    free(buf);
     pclose(input);
     pclose(output);
     return 0;
