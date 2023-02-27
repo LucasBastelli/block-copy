@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     }
     char *buf;
     buf = malloc(sizeof(char) * blocksize);
-    const void *ptr = (void *) buf;
+    void *ptr = (void *) buf;
     FILE *input, *output;
     size_t n;
     input = fopen(infile, "r");
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]){
     }
     fwrite(ptr, sizeof(char), n, output);
     free(buf);
-    pclose(input);
-    pclose(output);
+    fclose(input);
+    fclose(output);
     return 0;
 }
