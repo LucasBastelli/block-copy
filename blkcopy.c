@@ -14,7 +14,8 @@ int main(int argc, char *argv[]){
         printf("invalid size number\n");
         return(1);
     }
-    signed char buf[100];
+    char *buf;
+    buf = malloc(sizeof(char) * blocksize);
     const void *ptr = (void *) buf;
     FILE *input, *output;
     size_t n;
