@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 int main(int argc, char *argv[]){
     if (argc < 4)
     {
@@ -29,11 +31,19 @@ int main(int argc, char *argv[]){
         printf("Unable to open output file\n");
         return(1);
     }
+    clock_t inicio, fim;
+    double tempo_execucao;
+
+    inicio = clock(); // registra o tempo de início da execução
     while ((n = fread(ptr, sizeof(char), blocksize, input)) == blocksize){
         fwrite(ptr, sizeof(char), blocksize, output);
     }
     fwrite(ptr, sizeof(char), n, output);
     free(buf);
+    fim = clock(); // registra o tempo de término da execução
+
+    tempo_execucao = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+    printf("%f\n", tempo_execucao);
     fclose(input);
     fclose(output);
     return 0;
