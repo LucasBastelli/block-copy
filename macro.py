@@ -1,9 +1,12 @@
 import subprocess
 import sys
 import os
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def grafico(y1,y2,y3):
+    y1=sum(y1)/len(y1)
+    y2=sum(y2)/len(y2)
+    y3=sum(y3)/len(y3)
     plt.rcParams['figure.figsize'] = (11,7)
     plt.bar(1, y1, color='r')
     plt.bar(2, y2, color='b')
@@ -28,10 +31,9 @@ def rodar(rep,programa,copia,cola,tamanho):
     return retorno
 
 def abre(nome):
-    arq=open(nome+".txt","r")	#Nome do arquivo
+    arq=open(nome,"r")	#Nome do arquivo
     lista=arq.read()
     lista=eval(lista)
-    print(lista)
     return lista
 
 
