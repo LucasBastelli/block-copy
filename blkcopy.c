@@ -38,8 +38,14 @@ int main(int argc, char *argv[]){
     inicio = clock(); // registra o tempo de início da execução
     while ((n = fread(ptr, sizeof(char), blocksize, input)) == blocksize){
         fwrite(ptr, sizeof(char), blocksize, output);
+        #ifdef FSYNC
+        fsync(output);
+        #endif
     }
     fwrite(ptr, sizeof(char), n, output);
+    #ifdef FSYNC
+    fsync(output);
+    #endif
     free(buf);
     fim = clock(); // registra o tempo de término da execução
 
