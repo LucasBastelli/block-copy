@@ -58,6 +58,10 @@ def main(arg):
         lista2 = abre(arg[3])
         lista3 = abre(arg[4])
         grafico(lista1,lista2,lista3)
+    
+    else:
+        print("USAGE: \nr PROGRAM FILE_INPUT FILE_OUTPUT SIZE TXT_NAME")
+        print("OR:\ng TXT1 TXT2 TXT3")
 
 
 main(sys.argv)
