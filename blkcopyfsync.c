@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
+#include <sys/time.h>
 
 int main(int argc, char *argv[]){
     if (argc < 4)
@@ -37,10 +37,8 @@ int main(int argc, char *argv[]){
         printf("Unable to open output file\n");
         return(1);
     }
-    clock_t inicio, fim;
-    double tempo_execucao;
-
-    inicio = clock(); // registra o tempo de início da execução
+    struct timeval begin, end;
+    gettimeofday(&begin, 0);
     while ((n = fread(ptr, sizeof(char), blocksize, input)) == blocksize){
         write(output, ptr, sizeof(char)*blocksize);
         fsync(output);
@@ -48,10 +46,11 @@ int main(int argc, char *argv[]){
     write(output, ptr, sizeof(char)*n);
     fsync(output);
     free(buf);
-    fim = clock(); // registra o tempo de término da execução
-
-    tempo_execucao = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
-    printf("%f\n", tempo_execucao);
+    gettimeofday(&end, 0);
+    long seconds = end.tv_sec - begin.tv_sec;
+    long microseconds = end.tv_usec - begin.tv_usec;
+    double elapsed = seconds + microseconds*1e-6;
+    printf("%f\n", elapsed);
     fclose(input);
     close(output);
     return 0;
