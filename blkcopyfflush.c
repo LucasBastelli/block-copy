@@ -37,8 +37,10 @@ int main(int argc, char *argv[]){
     gettimeofday(&begin, 0);
     while ((n = fread(ptr, sizeof(char), blocksize, input)) == blocksize){
         fwrite(ptr, sizeof(char), blocksize, output);
+        fflush(output);
     }
     fwrite(ptr, sizeof(char), n, output);
+    fflush(output);
     free(buf);
     gettimeofday(&end, 0);
     long seconds = end.tv_sec - begin.tv_sec;
