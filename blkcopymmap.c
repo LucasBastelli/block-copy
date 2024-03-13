@@ -5,6 +5,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <string.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[]){
     if (argc < 4)
@@ -89,8 +91,8 @@ int main(int argc, char *argv[]){
     // Unmap and close the files
     munmap(source, filesize);
     munmap(target, filesize);
-    close(source);
-    close(target);
+    close(input);
+    close(output);
 
     return 0;
 }
