@@ -12,9 +12,9 @@ def grafico(y1,y2,y3):
     plt.bar(2, y2, color='b')
     plt.bar(3, y3, color='g')
     plt.ylabel('Tempo')
-    plt.title('Comparação PM vs RAM vs SSD')
+    plt.title('Comparação PM vs RAM vs SSD fsync')
     plt.legend(labels=['RAM', 'PM', 'SSD'])
-    plt.savefig("graficoComparacao.pdf")
+    plt.savefig("graficoComparacaofsync.pdf")
     #plt.show()
 
 def rodar(rep,programa,copia,cola,tamanho):
@@ -61,7 +61,7 @@ def main(arg):
     
     else:
         print("USAGE: \nr PROGRAM FILE_INPUT FILE_OUTPUT SIZE TXT_NAME")
-        print("OR:\ng TXT1 TXT2 TXT3")
+        print("OR:\ng RAM PM SSD")
 
 
 main(sys.argv)
