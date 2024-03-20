@@ -10,3 +10,10 @@ to use:
     ./program InputFile OutputFile BlockSize
 
 Fsync forces the computer save the changes on the drive without a buff. The buff can change the final result.
+
+You can use the macro to run all the experiments automatic:
+
+    python3 macro.py -h
+
+
+
