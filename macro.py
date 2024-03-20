@@ -2,6 +2,7 @@ import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
 import statistics
+import sys
 
 # Define the programs
 programs = ["blkcp", "blkmmap", "blkfsync", "blkfflush"]
@@ -64,7 +65,7 @@ def bootstrap_confidence_interval(data):
 def benchmark(program,rm,arg):
     # Iterate over each set of arguments
     # Construct the command
-    command = f"{program} {arg[0]} {arg[1]} {arg[2]}"
+    command = f"{'./'+program} {arg[0]} {arg[1]} {arg[2]}"
     
     # Execute the command
     process = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -138,3 +139,5 @@ def main(args):
     
     else:
         print("USAGE MODE:\n-b Runs benchmark\n-g Produces the graphics\n-a Execute both\n\n\n")
+
+main(sys.argv)
