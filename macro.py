@@ -32,7 +32,7 @@ def plot_bar_with_confidence_interval(values, confidence_intervals, label):
 
     # Define as labels para o eixo x
     ax.set_xticks(x_pos)
-    ax.set_xticklabels('SSD','PM')
+    ax.set_xticklabels(['SSD','PM'])
 
     # Define os labels dos eixos e o título do gráfico
     ax.set_xlabel('Dispositivos')
@@ -104,23 +104,20 @@ def run_bench():
                 salva(allruns,program+argsTypes[i]+block)
 
 def grafico():
-    lista1 = []
-    lista2 = []
     for program in programs:
         for block in blockSizes:
-            i = 0
-            for i in range(len(argsTypes)):
-                NameFile = program+argsTypes[i]+block
-                lista1 = abre(NameFile)
-                i+1
-                NameFile = program+argsTypes[i]+block
-                lista2 = abre(NameFile)
-                interval1 = bootstrap_confidence_interval(lista1)
-                interval2 = bootstrap_confidence_interval(lista2)
+            xlables=[]
+            auxlist = []
+            meanlist = []
+            interval = []
+            for argtype in argsTypes:
+                xlables.append(argtype)
+                NameFile = program+argtype+block
+                auxlist = abre(NameFile)
+                meanlist.append(statistics.mean(auxlist))
+                interval.append(bootstrap_confidence_interval(auxlist))
 
-                plot_bar_with_confidence_interval([statistics.mean(lista1),statistics.mean(lista2)], 
-                                                    [interval1,interval2], 
-                                                    program+argsTypes[i][:3]+block)
+                plot_bar_with_confidence_interval(meanlist, interval, xlables, program+block)
 
 
 
