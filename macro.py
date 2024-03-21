@@ -20,31 +20,33 @@ argsFiles = [
 Rep = 5 #Number of repetitions
 
 
-def plot_bar_with_confidence_interval(values, confidence_intervals, label):
-    # Cria uma figura e um conjunto de subtramas
+def plot_bar_with_confidence_interval(values, confidence_intervals, xlabel, label):
+    # Cria um array com a posição de cada barra
     fig, ax = plt.subplots()
 
-    # Cria um array com a posição de cada barra
+    # Create an array for the positions of the bars on the x-axis
     x_pos = np.arange(len(values))
 
-    # Cria as barras no gráfico de barras
-    ax.bar(x_pos, values, yerr=confidence_intervals, align='center', alpha=0.5, ecolor='black', capsize=10)
+    #Random colors for the bars
+    cmap = plt.cm.tab10
+    colors = cmap(np.arange(len(values)) % cmap.N)
+    # Create the bars
+    ax.bar(x_pos, values, yerr=[confidence_intervals[0], confidence_intervals[1]], 
+           align='center', alpha=0.5, ecolor='black', capsize=10, label=label, color=colors)
 
-    # Define as labels para o eixo x
+    # Set the x-axis tick labels to the names of the bars
     ax.set_xticks(x_pos)
-    ax.set_xticklabels(['SSD','PM'])
-
-    # Define os labels dos eixos e o título do gráfico
-    ax.set_xlabel('Dispositivos')
-    ax.set_ylabel('Tempo em segundos')
-    ax.set_title(label)
+    ax.set_xticklabels(xlabel)
+    plt.title(label)
     plt.savefig(label+".pdf")
+    plt.close()
+
 
 
 
 # Define a função para calcular o intervalo de confiança bootstrap
 def bootstrap_confidence_interval(data):
-    num_samples=1000
+    num_samples=10000
     confidence_level=0.95
     # Gera amostras bootstrap
     bootstrap_samples = np.random.choice(data, (num_samples, len(data)))
@@ -57,7 +59,7 @@ def bootstrap_confidence_interval(data):
     upper_percentile = (1 + confidence_level) / 2 * 100
     
     # Calcula o intervalo de confiança
-    confidence_interval = tuple(np.percentile(bootstrap_means, [lower_percentile, upper_percentile]))
+    confidence_interval = np.percentile(bootstrap_means, [lower_percentile, upper_percentile])
     
     return confidence_interval
 
@@ -110,14 +112,22 @@ def grafico():
             auxlist = []
             meanlist = []
             interval = []
-            for argtype in argsTypes:
-                xlables.append(argtype)
-                NameFile = program+argtype+block
+            reup = 0
+            redown = 0
+            resultsUP = []
+            resultsDOWN = []
+            for copytype in argsTypes:
+                xlables.append(copytype)
+                NameFile = program+copytype+block
                 auxlist = abre(NameFile)
                 meanlist.append(statistics.mean(auxlist))
-                interval.append(bootstrap_confidence_interval(auxlist))
+                redown, reup = bootstrap_confidence_interval(auxlist)
+                resultsUP.append(reup)
+                resultsDOWN.append(redown)
 
-                plot_bar_with_confidence_interval(meanlist, interval, xlables, program+block)
+            interval.append(resultsDOWN)
+            interval.append(resultsUP)
+            plot_bar_with_confidence_interval(meanlist, interval, xlables, program+block)
 
 
 
