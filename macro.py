@@ -19,6 +19,14 @@ argsFiles = [
 
 Rep = 5 #Number of repetitions
 
+def plot_list(lst, label):
+    plt.plot(lst)
+    plt.xlabel('Index')
+    plt.ylabel('Tempo')
+    plt.xticks(range(len(lst)), range(len(lst)))
+    plt.savefig(label+".pdf")
+    plt.close()
+
 
 def plot_bar_with_confidence_interval(values, confidence_intervals, xlabel, label):
     # Cria um array com a posição de cada barra
@@ -130,6 +138,14 @@ def grafico():
             plot_bar_with_confidence_interval(meanlist, interval, xlables, program+block)
 
 
+def graficoSeq():
+    for program in programs:
+        for block in blockSizes:
+            for copytype in argsTypes:
+                auxlist = []
+                NameFile = program+copytype+block
+                auxlist = abre(NameFile)
+                plot_list(auxlist,NameFile)
 
 
 def main(args):
@@ -139,12 +155,15 @@ def main(args):
     
     elif(args[1]=='-g'):
         grafico()
+        
+    elif(args[1]=='-s'):
+        graficoSeq()
 
     elif(args[1]=='-a'):
         run_bench()
         grafico()
     
     else:
-        print("USAGE MODE:\n-b Runs benchmark\n-g Produces the graphics\n-a Execute both\n\n\n")
+        print("USAGE MODE:\n-b Runs benchmark\n-g Produces the graphics to compare\n-s Create graphics of each run\n-a Execute both\n\n\n")
 
 main(sys.argv)
