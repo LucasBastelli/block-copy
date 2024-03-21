@@ -103,8 +103,10 @@ def run_bench():
     rm = True
     for program in programs:
         for block in blockSizes:
+            print("Blocks: ",block)
             i = 0
             for i in range(len(argsTypes)):
+                print("Type: ", argsTypes[i])
                 counter = 0
                 allruns = []
                 while(counter<Rep):
