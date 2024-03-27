@@ -103,6 +103,7 @@ def abre(nome):
 def run_bench():
     rm = True
     for program in programs:
+        print("Program: ",program)
         for block in blockSizes:
             print("Blocks: ",block)
             i = 0
