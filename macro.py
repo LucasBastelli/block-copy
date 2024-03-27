@@ -114,8 +114,11 @@ def run_bench():
                     command = f"{'./'+program} {argsFiles[i][0]} {argsFiles[i][1]} {block}"
                     process = subprocess.run(command, shell=True, capture_output=True, text=True)
                 else:
-                    command =f"{'rm'} {arg[1]}"
-                    process = subprocess.run(command2, shell=True, capture_output=True, text=True)
+                    try:
+                        command =f"{'rm'} {argsFiles[i][1]}"
+                        process = subprocess.run(command, shell=True, capture_output=True, text=True)
+                    except:
+                        pass
                 while(counter<Rep):
                     text = benchmark(program,rm,[argsFiles[i][0],argsFiles[i][1], block])
                     allruns.append(text)
