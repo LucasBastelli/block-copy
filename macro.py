@@ -31,7 +31,8 @@ def plot_list(lst, label):
 def plot_bar_with_confidence_interval(values, confidence_intervals, xlabel, label):
     # Cria um array com a posição de cada barra
     fig, ax = plt.subplots()
-
+    differenceDown = [i - j for i, j in zip(values, confidence_intervals[0])]
+    differenceUP = [i - j for i, j in zip(confidence_intervals[1], values)]
     # Create an array for the positions of the bars on the x-axis
     x_pos = np.arange(len(values))
 
@@ -39,7 +40,7 @@ def plot_bar_with_confidence_interval(values, confidence_intervals, xlabel, labe
     cmap = plt.cm.tab10
     colors = cmap(np.arange(len(values)) % cmap.N)
     # Create the bars
-    ax.bar(x_pos, values, yerr=[confidence_intervals[0], confidence_intervals[1]], 
+    ax.bar(x_pos, values, yerr=[differenceDown, differenceUP], 
            align='center', alpha=0.5, ecolor='black', capsize=10, label=label, color=colors)
 
     # Set the x-axis tick labels to the names of the bars
